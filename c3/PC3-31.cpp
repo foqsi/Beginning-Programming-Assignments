@@ -1,5 +1,7 @@
 
 /*
+Extra Credit assignment
+
 General Crates, Inc. builds custom-designed wooden crates. With materials and labor, it costs CGI $0.23 per cubic foot to build a crate. In turn, they charge their customers $0.50 per cubic foot for the crate. You have been asked to write a program that calculates the volume (in cubic feet), cost, customer price, and profit of any crate CGI builds.
 
 //
@@ -32,7 +34,12 @@ int main()
     double length, width, height, volume, cost, charge, profit, profit_per;
     const double COST_PER_CUBIC_FOOT = 0.23, CHARGE_PER_CUBIC_FOOT = 0.5;
 
-    length = 3.5, width = 5.1, height = 6.25;
+    cout << "Enter the length: ";
+    cin >> length;
+    cout << "Enter the width: ";
+    cin >> width;
+    cout << "Enter the height: ";
+    cin >> height;
 
     //calculations
     volume = length * width * height;

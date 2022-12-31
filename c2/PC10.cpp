@@ -3,13 +3,13 @@ using namespace std;
 
 int main()
 {
-    float m, g;
+    double m, g;
     cout << "Fuel capacity: ";
     cin >> g;
     cout << "Miles traveled: ";
     cin >> m;
 
-    float r = m / g;
+    double r = m / g;
     cout << r;
 
     return 0;

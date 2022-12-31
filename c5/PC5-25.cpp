@@ -11,8 +11,6 @@ The program should prompt the user for the file name and read the data from the 
 
 Do not use arrays or sorting for this problem! 
 */
-
-
 #include <iostream>
 #include <fstream>
 #include <string>

@@ -1,5 +1,8 @@
 
 /*
+Got a 75 on this assignment
+
+
 A retail company must file a monthly sales tax report listing the sales for the month and the amount of sales tax collected. Write a program that asks for the month, the year, and the total amount collected at the cash register (i.e. sales plus sales tax). Assume the state sales tax is 4 percent, and the county sales tax is 2 percent. If the total amount collected is known and the total sales tax is 6 percent, the amount of product sales may be calculated as:
 
 S = T/1.06
@@ -31,9 +34,11 @@ int main()
 {
     string month, year;
     double total_collected, total_sales_tax, sales,
-    county_sales_tax_dollars, state_sales_tax_dollar,
-    total_sales_tax_dollars; //final dollar amount
-    const double STATE_SALES_TAX = 1.04, COUNTY_SALES_TAX = 1.02;
+           county_sales_tax_dollars, state_sales_tax_dollar,
+           total_sales_tax_dollars; //final dollar amount
+           
+    const double STATE_SALES_TAX = 1.04, 
+                 COUNTY_SALES_TAX = 1.02;
 
     //input
     cout << "What is the month and year?\n";
@@ -42,7 +47,7 @@ int main()
     cin >> total_collected;
 
     //vanity header
-    cout << setw(16) << "month" << " : " << year << endl;
+    cout << setw(16) << month << " : " << year << endl;
     cout << "---------------------------------" << endl;
 
     //calculations

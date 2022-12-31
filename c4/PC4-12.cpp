@@ -30,21 +30,23 @@ using namespace std;
 
 int main()
 {
-    double quantity, price = 99, total_price, discount = 0, discountDollar;
+    double price = 99,
+           discount = 0,
+           quantity, total_price, discountDollar;
 
-    cout << "Please enter quantity: ";
+    cout << "Please enter quantity purchased: ";
     cin >> quantity;
 
     if (quantity > 0) {
-        if (quantity > 10 && quantity < 20)
+        if (quantity >= 10 && quantity < 20)
             discount = .20;
         if (quantity >= 20 && quantity < 50)
             discount = .30;
-        if (quantity >= 50 && quantity < 99)
+        if (quantity >= 50 && quantity < 100)
             discount = .40;
         if (quantity >= 100)
             discount = .50;
-        cout << "Your discount is " << setw(8) << discount * 100 << "%\n\n";
+        cout << "Your discount is:" << setw(8) << discount * 100 << "%\n\n";
     }
     else {
         cout << "You must enter a number more than 0.\n";

@@ -34,96 +34,115 @@ For your screen shot, enter an initial balance of 365.50, a deposit total of of 
 
 using namespace std;
 
-int main()
+int main() 
 {
-    int month, checkNumber, atmTransaction;
-    double initialBalance, balance, remainingBalance, depositAmount, 
-        checkDollar, checkDeposit, checkFee, checkFeeCalc, checkDollarDeposit,
-        atmDollar, atmWithdraw, atmFee, atmDollarFinal, atmFeeTotal;
-    const double MONTHLY_FEE = 10.00, LOW_BAL_FEE = 15.00, OVERDRAFT_FEE = 20.00;
+	int checksWritten, atmTransactions;
+    const double MONTHLY_FEE = 10.0, LOW_BALANCE_FEE = 15.0,
+				ATM_OVER_FIVE_FEE = 0.10, OVERDRAWN_FEE = 20.0;; 
+	double checkFee = 0.0, atmFee = 0.0, runningBalance = 0.0, finalBalance = 0,            
+                depositAmount, atmWithdrawalAmt, checkTotal, initialBalance;
 
-    cout << fixed << setprecision(2);
-    cout << "What is the initial balance? ";
+	 //initial balance
+    cout << "Enter the initial balance: ";
     cin >> initialBalance;
-    cout << "What is the total amount deposited? ";
+	
+	//deposit amount 
+    cout << "Enter deposit amount: ";
     cin >> depositAmount;
+	if (depositAmount < 0) {
+		cout << "Invalid dollar amount!";
+		return 0;
+	}
 
-     //Low balance
-    if (initialBalance < 400)
-        initialBalance - LOW_BAL_FEE;
-
-    //Monthly charge
-    
-
-    //Checks
-    cout << "Number of checks? ";
-    cin >> checkNumber;
-    if (checkNumber > 0)
-    {
-        cout << "Total amount in checks? ";
-        cin >> checkDollar;
-        if (checkDollar <= 0)
-        {
-            cout << "Please enter an amount greater than zero.";
+    //checks
+	cout << "Enter the number of checks written: ";
+	cin >> checksWritten;
+	if (checksWritten < 0) {
+		cout << "Invalid number of checks!";
+		return 0;
+	}
+	if (checksWritten > 0) { 
+        cout << "Enter the combined dollar amount of checks written: ";
+        cin >> checkTotal;
+        if (checkTotal <= 0) {
+            cout << "Invalid dollar amount!";
             return 0;
         }
-    }
-    if (checkNumber > 0 && checkNumber < 20)
-        checkFee = 0.10;
-    else if (checkNumber > 20 && checkNumber < 39)
-        checkFee = 0.08;
-    else if (checkNumber > 40 && checkNumber < 59)
-        checkFee = 0.06;
-    else if (checkNumber > 60)
-        checkFee = 0.04;
-    checkFeeCalc = checkNumber * checkFee;
-    checkDollarDeposit = checkDollar - checkFee;
-    
-    
-    //ATM
-    cout << "Number of ATM transactions? ";
-    cin >> atmTransaction;
-    if (atmTransaction > 0)
-    {
-        cout << "ATM transactions total? ";
-        cin >> atmDollar;
-        if (atmDollar <= 0)
-        {
-            cout << "Please enter an amount greater than zero.";
-            return 0;
-        }  
-    }
-    if (atmTransaction > 5)
-    {
-        atmFee = .05;
-        atmWithdraw = atmDollar - (atmFee * atmTransaction);
-        atmFeeTotal = atmFee * atmTransaction;
+        //calculate check fee
+        else {
+            if (checksWritten < 20) {
+                checkFee = 0.1 * checksWritten;
+            }
+			else if (checksWritten < 39) {
+                checkFee = 0.08 * checksWritten;
+            }
+			else if (checksWritten < 59) {
+                checkFee = 0.06 * checksWritten;
+            }
+			else {
+                checkFee = 0.04 * checksWritten;
+            }
+        }
     }
 
-    //Balance after charges/withdrawals?
-    balance = (checkFee * checkNumber) + (atmFee * atmTransaction);
-    if (balance < 400)
-        balance - LOW_BAL_FEE;
+	//ATM 
+	cout << "Enter number of ATM transactions: ";
+	cin >> atmTransactions;
+	if (atmTransactions < 0) {
+		cout << "Invalid transaction amount!";
+		return 0;
+	}
+	if (atmTransactions > 5) { //calc ATM fee if applicable 
+		atmFee = (atmTransactions - 5) * ATM_OVER_FIVE_FEE;
+	}
+	if (atmTransactions > 0) {
+		cout << "Enter combined dollar amount of ATM transactions: ";
+		cin >> atmWithdrawalAmt; 
 
-    //Overdrawn
-    if (balance < 0)
-        remainingBalance = balance - OVERDRAFT_FEE;
-        cout << "Urgent: Account overdrawn!" << endl;
+		if (atmWithdrawalAmt <= 0) {
+			cout << "Invalid withdrawal amount!";
+			return 0;
+		}
+	}
 
-    
-    // 365.50 208.56 22 410.55 7 240
-    cout << "-------------------------------------------" << endl;
-    cout << "Initial Balance: " << setw(25) << initialBalance << endl <<
-    "Monthly fee: " << setw(29) << MONTHLY_FEE << endl <<
-    "Low balance fee: " << setw(25) << LOW_BAL_FEE << endl <<
-    "Overdraft fee: " << setw(27) << OVERDRAFT_FEE << endl <<    
-    "ATM Fee: " << setw(33) << atmFeeTotal << endl <<
-    "Amount deposited: " << setw(24) << depositAmount << endl <<
-    "Number of checks deposited: " << setw(14) << checkNumber << endl <<
-    "Total deposited from check: " << setw(14) << checkDollarDeposit << endl <<
-    "Number of ATM transactions: " << setw(14) << atmTransaction << endl <<
-    "Total withdrawn from ATM: " << setw(16) << atmWithdraw << endl <<
-    "Remaining Balance: " << setw(23) << remainingBalance << endl;
+	//apply charges and withdrawals 
+	runningBalance = initialBalance - checkTotal - atmWithdrawalAmt - checkFee - atmFee - MONTHLY_FEE;
 
-    return 0;
+	//check for low balance and/or negative balance
+	if (runningBalance < 400) {
+		runningBalance -= LOW_BALANCE_FEE;
+	}
+	if (runningBalance < 0) {
+		cout << "------------------------------------" << endl;
+		cout << "ACCOUNT IS OVERDRAWN! \n";
+		runningBalance -= OVERDRAWN_FEE;
+	}
+
+	//add deposit
+	finalBalance = runningBalance + depositAmount;
+
+	//output
+	cout << fixed << showpoint << setprecision(2);
+    cout << "------------------------------------" << endl;
+    cout << "Initial balance: " << setw(19) << initialBalance << endl;
+    cout << "Monthly fee: " << setw(23) << MONTHLY_FEE << endl;
+	if (runningBalance < 400) {
+        cout << "Low balance fee: " << setw(19) << LOW_BALANCE_FEE << endl;
+	}
+    if (runningBalance < 0) {
+        cout << "Overdraft fee: " << setw(21) << OVERDRAWN_FEE << endl;
+	}
+    if (checksWritten > 0) { //if no checks written, does not display check line
+        cout << "Number of written checks: " << setw(10) << checksWritten << endl;
+        cout << "Check fee: " << setw(25) << checkFee << endl;
+        cout << "Check written amount: " << setw(14) << checkTotal << endl;
+    }
+    if (atmTransactions > 0) { //if no ATM transactions, does not display ATM line
+        cout << "ATM Transactions: " << setw(18) << atmTransactions << endl;
+        cout << "ATM fee: " << setw(27) << atmFee << endl;
+        cout << "ATM withdrawal amount: " << setw(13) << atmWithdrawalAmt << endl;
+    }
+    cout << "Balance afer fees: " << setw(17) << runningBalance << endl;
+    cout << "Amount deposited: " << setw(18) << depositAmount << endl;
+    cout << "Final balance: " << setw(21) << finalBalance << endl;
 }

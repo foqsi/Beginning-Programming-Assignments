@@ -23,7 +23,7 @@ For your screen shot, enter temperatures of 14.1 and -9.5 degrees, in that order
 
 
 
-//Edward Davis
+
 #include <iostream>
 #include <iomanip>
 #include <cmath>
